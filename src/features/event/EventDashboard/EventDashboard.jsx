@@ -105,12 +105,23 @@ class EventDashboard extends Component {
     });
   }
 
+  handleDeleteEvent = (eventId) => () => {
+    // returns all the events that do not match the event id that is passed in(the selected event)
+    const updatedEvents = this.state.events.filter(event => event.id !== eventId);
+    this.setState({
+      events: updatedEvents
+    })
+  }
+
   render() {
     const {selectedEvent} = this.state;
     return (
       <Grid>
         <Grid.Column width={10}>
-            <EventList onEventOpen={this.handleOpenEvent} events={this.state.events}/>
+            <EventList 
+              deleteEvent={this.handleDeleteEvent} 
+              onEventOpen={this.handleOpenEvent} 
+              events={this.state.events}/>
         </Grid.Column>
         <Grid.Column width={6}>
             <Button onClick={this.handleFormOpen} positive content='Create Event'/>
@@ -118,7 +129,7 @@ class EventDashboard extends Component {
               <EventForm 
                 updateEvent={this.handleUpdateEvent}
                 selectedEvent={selectedEvent}
-                createEvent={this.handleCreateEvent} 
+                createEvent={this.handleCreateEvent}
                 handleCancel={this.handleCancel}/>
             )}
         </Grid.Column>
