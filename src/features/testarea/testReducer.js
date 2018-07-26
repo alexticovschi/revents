@@ -14,7 +14,7 @@ const testReducer = (state = initialState, action) => {
         case DECREMENT_COUNTER:
             return {
                 ...state,
-                data: state.dat - 1
+                data: state.data - 1
             }
         default:
             return state;
