@@ -1,36 +1,14 @@
 import React from "react";
+import { connect } from 'react-redux';
 import EventDetailedHeader from "./EventDetailedHeader";
 import EventDetailedInfo from "./EventDetailedInfo";
 import EventDetailedChat from "./EventDetailedChat";
 import EventDetailedSidebar from "./EventDetailedSidebar";
 import { Grid } from "semantic-ui-react";
 
-const event = {
-  id: "1",
-  title: "Trip to Tower of London",
-  date: "2018-03-27",
-  category: "culture",
-  description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.",
-  city: "London, UK",
-  venue: "Tower of London, St Katharine's & Wapping, London",
-  hostedBy: "Julie",
-  hostPhotoURL: "https://randomuser.me/api/portraits/women/20.jpg",
-  attendees: [
-    {
-      id: "a",
-      name: "Francesca",
-      photoURL: "https://randomuser.me/api/portraits/women/15.jpg"
-    },
-    {
-      id: "b",
-      name: "Tom",
-      photoURL: "https://randomuser.me/api/portraits/men/22.jpg"
-    }
-  ]
-};
 
-const EventDetailedPage = () => {
+
+const EventDetailedPage = ({event}) => {
   return (
     <Grid>
       <Grid.Column width={10}>
@@ -45,4 +23,20 @@ const EventDetailedPage = () => {
   );
 };
 
-export default EventDetailedPage;
+const mapStateToProps = (state, ownProps) => {
+  const eventId = ownProps.match.params.id;
+  let event = {};
+
+  // IF there's an eventId and there are events in the store,
+  //   than get the event that matches the eventId and store it in the event object
+  if(eventId && state.events.length > 0) {
+    event = state.events.filter(event => event.id === eventId)[0];
+    console.log(event);
+  }
+
+  return {
+    event
+  }
+}
+
+export default connect(mapStateToProps)(EventDetailedPage);

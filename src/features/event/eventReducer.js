@@ -16,7 +16,7 @@ const initialState = [
       attendees: [
         {
           id: 'a',
-          name: 'Bob',
+          name: 'Francesca',
           photoURL: 'https://randomuser.me/api/portraits/women/15.jpg'
         },
         {
@@ -40,7 +40,7 @@ const initialState = [
       attendees: [
         {
           id: 'b',
-          name: 'Tom',
+          name: 'Cristine',
           photoURL: 'https://randomuser.me/api/portraits/women/23.jpg'
         },
         {
