@@ -1,40 +1,32 @@
 import React, { Component } from "react";
 import { Segment, Form, Button } from 'semantic-ui-react';
+import { connect } from 'react-redux';
 
-
-
-const emptyEvent = {
-  title: '',
-  date: '',
-  city: '',
-  venue: '',
-  hostedBy: ''
-}
 
 class EventForm extends Component {
   state = {
-    event: emptyEvent
+    event: Object.assign({}, this.props.event)
   }
 
-  // invoked immediately after a component is mounted (inserted into the tree)
-  componentDidMount() {
-    const {selectedEvent} = this.props;
-    if(selectedEvent !== null) {
-      this.setState({
-        event: selectedEvent
-      })
-    }
-  }
+  // // invoked immediately after a component is mounted (inserted into the tree)
+  // componentDidMount() {
+  //   const {selectedEvent} = this.props;
+  //   if(selectedEvent !== null) {
+  //     this.setState({
+  //       event: selectedEvent
+  //     })
+  //   }
+  // }
 
-  // invoked immediately after updating occurs.
-  componentDidUpdate = (prevProps) => {
-    const {selectedEvent} = this.props;
-    if (selectedEvent !== prevProps.selectedEvent) {
-      this.setState({
-        event: selectedEvent || emptyEvent
-      })
-    }
-  };
+  // // invoked immediately after updating occurs.
+  // componentDidUpdate = (prevProps) => {
+  //   const {selectedEvent} = this.props;
+  //   if (selectedEvent !== prevProps.selectedEvent) {
+  //     this.setState({
+  //       event: selectedEvent || this.props.event
+  //     })
+  //   }
+  // };
 
   onFormSubmit = (event) => {
     event.preventDefault();
@@ -89,4 +81,23 @@ class EventForm extends Component {
   }
 }
 
-export default EventForm;
+
+const mapStateToProps = (state, ownProps) => {
+  const eventId = ownProps.match.params.id;
+
+  let event = {
+    title: '',
+    date: '',
+    city: '',
+    venue: '',
+    hostedBy: ''
+  }
+
+  if(eventId && state.events.length > 0) {
+    event = state.events.filter(event => eventId === event.id)[0];
+  }
+
+  return { event }
+}
+
+export default connect(mapStateToProps)(EventForm);
