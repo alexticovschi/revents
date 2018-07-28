@@ -4,6 +4,7 @@ import { reduxForm, Field } from 'redux-form';
 import cuid from 'cuid';
 import { connect } from 'react-redux';
 import { createEvent, updateEvent } from '../eventActions';
+import TextInput from '../../../app/common/form/TextInput';
 
 class EventForm extends Component {
   state = {
@@ -63,7 +64,7 @@ class EventForm extends Component {
             <label>Event Title</label>
             <input name="title" onChange={this.onInputChange} value={event.title} placeholder="Event Title" />
           </Form.Field> */}
-          <Field name='title' type='text' component='input' placeholder='Event Title' />
+          <Field name='title' type='text' component={TextInput} placeholder='Give your event a name' />
           <Form.Field>
             <label>Event Date</label>
             <input name="date" onChange={this.onInputChange} value={event.date} type="date" placeholder="Event Date" />
