@@ -31,7 +31,6 @@ const mapStateToProps = (state, ownProps) => {
   //   than get the event that matches the eventId and store it in the event object
   if(eventId && state.events.length > 0) {
     event = state.events.filter(event => event.id === eventId)[0];
-    console.log(event);
   }
 
   return {
