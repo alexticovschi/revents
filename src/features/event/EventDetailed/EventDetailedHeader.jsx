@@ -41,10 +41,11 @@ const EventDetailedHeader = ({event}) => {
       </Segment>
 
       <Segment attached="bottom">
-        <Button>Cancel My Place</Button>
-        <Button color="teal">JOIN THIS EVENT</Button>
-
-        <Button as={Link} to={`/manage/${event.id}`} color="orange" floated="right">
+        <Button color='red'>Cancel My Place</Button>
+        <Button color="teal" floated="right">JOIN THIS EVENT</Button>
+      </Segment>
+      <Segment attached="bottom">
+        <Button className='ui large fluid button' as={Link} to={`/manage/${event.id}`} color="orange">
           Manage Event
         </Button>
       </Segment>
@@ -53,3 +54,4 @@ const EventDetailedHeader = ({event}) => {
 };
 
 export default EventDetailedHeader;
+

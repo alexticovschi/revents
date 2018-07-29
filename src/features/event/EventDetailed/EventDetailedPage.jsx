@@ -10,7 +10,7 @@ import { Grid } from "semantic-ui-react";
 
 const EventDetailedPage = ({event}) => {
   return (
-    <Grid>
+    <Grid stackable>
       <Grid.Column width={10}>
         <EventDetailedHeader event={event} />
         <EventDetailedInfo event={event} />
