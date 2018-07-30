@@ -1,7 +1,10 @@
+/*global google*/ 
 import React, { Component } from "react";
 import { Segment, Form, Button, Grid, Header } from "semantic-ui-react";
 import { reduxForm, Field } from "redux-form";
 import moment from 'moment'
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import Script from 'react-load-script';
 import { composeValidators, combineValidators, isRequired, hasLengthGreaterThan } from 'revalidate';
 import cuid from "cuid";
 import { connect } from "react-redux";
@@ -35,6 +38,26 @@ const validate = combineValidators({
 })
 
 class EventForm extends Component {
+  state = {
+    cityLatLng: {},
+    venueLatLng: {},
+    scriptLoaded: false
+  }
+
+  handleScriptLoad = () => this.setState({scriptLoaded: true});
+
+  handleCitySelect = (selectedCity) => {
+    geocodeByAddress(selectedCity)
+      .then(results => getLatLng(results[0]))
+      .then(latlng => {
+        this.setState({
+          cityLatLng: latlng
+        })
+      })
+      .then(() => {
+        this.props.change('city', selectedCity)
+      })
+  }
 
   onFormSubmit = values => {
     //console.log(values)
@@ -58,6 +81,10 @@ class EventForm extends Component {
     const {invalid, submitting, pristine} = this.props;
     return (
       <Grid>
+        <Script 
+          url='https://maps.googleapis.com/maps/api/js?key=AIzaSyDfyiymG6qCLhbUeYTHJLdt527JFvGc5dU&libraries=places'
+          onLoad={this.handleScriptLoad}
+        />
         <Grid.Column width={10}>
           <Segment>
             <Header sub color='teal' content='Event Details' />
@@ -89,14 +116,20 @@ class EventForm extends Component {
                 component={PlaceInput}
                 options={{types: ['(cities)']}}
                 placeholder="Event City"
+                onSelect={this.handleCitySelect}
               />
+              {this.state.scriptLoaded && 
               <Field
                 name="venue"
                 type="text"
                 component={PlaceInput}
-                options={{types: ['establishment']}}
+                options={{
+                  location: new google.maps.LatLng(this.state.cityLatLng),
+                  radius: 1000,
+                  types: ['establishment']
+                }}
                 placeholder="Event Venue"
-              />
+              />}
               <Field
                 name="date"
                 type="text"
