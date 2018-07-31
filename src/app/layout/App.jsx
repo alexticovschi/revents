@@ -9,13 +9,14 @@ import UserDetailed from "../../features/user/UserDetailed/UserDetailedPage";
 import SettingsDashboard from "../../features/user/Settings/SettingsDashboard";
 import EventForm from "../../features/event/EventForm/EventForm";
 import NavBar from "../../features/nav/NavBar/NavBar";
-
+import ModalManager from '../../features/modals/ModalManager';
 import TestComponent from '../../features/testarea/TestComponent';
 
 class App extends Component {
   render() {
     return (
       <Fragment>
+        <ModalManager/>
         <Switch>
           <Route exact path="/" component={HomePage} />
         </Switch>

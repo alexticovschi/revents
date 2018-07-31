@@ -1,23 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import GoogleMapReact from 'google-map-react';
-
-import { Button, Icon } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import Script from 'react-load-script';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { incrementCounter, decrementCounter } from './testActions';
-
-const Marker = () => <Icon name='marker' size='big' color='red'/>
+import { openModal } from '../modals/modalActions';
 
 class TestComponent extends Component {
-  static defaultProps = {
-    center: {
-      lat: 59.95,
-      lng: 30.33
-    },
-    zoom: 11
-  };
-
   state = {
     address: '',
     scriptLoaded: false
@@ -44,9 +33,8 @@ class TestComponent extends Component {
       value: this.state.address,
       onChange: this.onChange,
     }
-    const {incrementCounter, decrementCounter, data} = this.props;
+    const {incrementCounter, decrementCounter, data, openModal} = this.props;
 
-    const API_KEY = 'AIzaSyDfyiymG6qCLhbUeYTHJLdt527JFvGc5dU';
     return (
       <div>
         <Script 
@@ -57,27 +45,13 @@ class TestComponent extends Component {
         <h3>The answer is: {data}</h3>
         <Button onClick={incrementCounter} color='green' content='INCREMENT'/>
         <Button onClick={decrementCounter} color='red' content='DECREMENT'/>
+        <Button onClick={() => openModal('TestModal', {data: 'Kobe Bryant'})} color='red' content='Open Modal'/>
 
         <form onSubmit={this.handleFormSubmit}>
           {this.state.scriptLoaded && 
           <PlacesAutocomplete inputProps={inputProps} />}
           <button type="submit">Submit</button>
         </form>
-
-        {/* Important! Always set the container height explicitly */}
-        <div style={{ height: '300px', width: '100%' }}>
-          <GoogleMapReact
-            bootstrapURLKeys={{ key: API_KEY }}
-            defaultCenter={this.props.center}
-            defaultZoom={this.props.zoom}
-          >
-            <Marker
-              lat={59.955413}
-              lng={30.337844}
-              text={'Kreyser Avrora'}
-            />
-          </GoogleMapReact>
-        </div>
       </div>
     )
   }
@@ -91,7 +65,8 @@ const mapStateToProps = (state) => {
 
 const actions = {
     incrementCounter,
-    decrementCounter
+    decrementCounter,
+    openModal
 }
 
 export default connect(mapStateToProps, actions)(TestComponent);
