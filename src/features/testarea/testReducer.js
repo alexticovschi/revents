@@ -4,8 +4,7 @@ import {
     DECREMENT_COUNTER,
     COUNTER_ACTION_STARTED,
     COUNTER_ACTION_FINISHED
- } from "./TestConstants";
-import { startCounterAction, finishCounterAction } from './testActions';
+} from "./TestConstants";
 
 const initialState = {
     data: 24,
