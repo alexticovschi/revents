@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { Form, Segment, Button, Label, Divider } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import TextInput from '../../../app/common/form/TextInput';
-import { login } from '../authActions';
+import { login, socialLogin } from '../authActions';
 import SocialLogin from '../SocialLogin/SocialLogin';
 
-const LoginForm = ({login, handleSubmit, error}) => {
+const LoginForm = ({login, handleSubmit, error, socialLogin}) => {
   return (
     <Form size="large" onSubmit={handleSubmit(login)}>
       <Segment>
@@ -29,14 +29,15 @@ const LoginForm = ({login, handleSubmit, error}) => {
         <Divider horizontal>
           Or
         </Divider>
-        <SocialLogin/>
+        <SocialLogin socialLogin={socialLogin}/>
       </Segment>
     </Form>
   );
 };
 
 const actions = {
-  login
+  login, 
+  socialLogin
 }
 
 export default connect(null, actions)(reduxForm({form: 'loginForm'})(LoginForm));
