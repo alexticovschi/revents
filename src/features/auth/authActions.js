@@ -37,5 +37,8 @@ export const registerUser = (user) => async (dispatch, getState, {getFirebase, g
         dispatch(closeModal());
     } catch (error) {
         console.log(error);
+        throw new SubmissionError({
+             _error: error.message
+        })
     }
 }
