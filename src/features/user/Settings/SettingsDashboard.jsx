@@ -9,7 +9,7 @@ import PhotosPage from "./PhotosPage";
 import AccountPage from "./AccountPage";
 import { updatePassword } from "../../auth/authActions";
 
-const SettingsDashboard = ({ updatePassword }) => {
+const SettingsDashboard = ({ updatePassword, providerId }) => {
   return (
     <Grid>
       <Grid.Column width={12}>
@@ -20,7 +20,7 @@ const SettingsDashboard = ({ updatePassword }) => {
           <Route path="/settings/photos" component={PhotosPage} />
           <Route
             path="/settings/account"
-            render={() => <AccountPage updatePassword={updatePassword} />}
+            render={() => <AccountPage updatePassword={updatePassword} providerId={providerId} />}
           />
         </Switch>
       </Grid.Column>
@@ -35,7 +35,14 @@ const actions = {
   updatePassword
 };
 
+const mapStateToProps = (state) => {
+  return {
+    providerId: state.firebase.auth.providerData[0].providerId
+  }
+}
+
+
 export default connect(
-  null,
+  mapStateToProps,
   actions
 )(SettingsDashboard);
