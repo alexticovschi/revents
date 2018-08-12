@@ -4,12 +4,13 @@ import { toastr } from 'react-redux-toastr';
 export const updateProfile = (user) => 
     async (dispatchEvent, getState, {getFirebase}) => {
         const firebase = getFirebase();
-        if (user.dateOfBirth) {
-            user.dateOfBirth = moment(user.dateOfBirth).toDate();
+        const {isLoaded, isEmpty, ...updatedUser} = user;
+        if (updatedUser.dateOfBirth !== getState().firebase.profile.dateOfBirth) {
+            updatedUser.dateOfBirth = moment(updatedUser.dateOfBirth).toDate();
         }
 
         try {
-            await firebase.updateProfile(user);
+            await firebase.updateProfile(updatedUser);
             toastr.success('Success', 'Profile Updated')
         } catch (error) {
             console.log(error);
