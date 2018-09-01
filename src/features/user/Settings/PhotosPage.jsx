@@ -16,7 +16,7 @@ import Dropzone from "react-dropzone";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { toastr } from "react-redux-toastr";
-import { uploadProfileImage } from "../userActions";
+import { uploadProfileImage, deletePhoto } from "../userActions";
 
 class PhotosPage extends Component {
   state = {
@@ -38,6 +38,15 @@ class PhotosPage extends Component {
       toastr.error("Oops", error.message);
     }
   };
+
+  handlePhotoDelete = (photo) => () => {
+    try {
+      this.props.deletePhoto(photo);
+      toastr.success('Success!', 'Photo has been deleted!');
+    } catch(error) {
+      toastr.error('Oops!', error.message);
+    }
+  }
 
   cancelCrop = () => {
     this.setState({
@@ -141,7 +150,7 @@ class PhotosPage extends Component {
                 <Button basic color="green">
                   Main
                 </Button>
-                <Button basic icon="trash" color="red" />
+                <Button onClick={this.handlePhotoDelete(photo)} basic icon="trash" color="red" />
               </div>
             </Card>
           ))}
@@ -171,7 +180,8 @@ const mapStateToProps = (state) => {
 }
 
 const actions = {
-  uploadProfileImage
+  uploadProfileImage,
+  deletePhoto
 };
 
 export default compose(
