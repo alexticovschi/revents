@@ -85,7 +85,7 @@ class PhotosPage extends Component {
   };
 
   render() {
-    const { photos, profile } = this.props;
+    const { photos, profile, loading } = this.props;
     let filteredPhotos;
     if(photos) {
       filteredPhotos = photos.filter(photo => {
@@ -135,8 +135,12 @@ class PhotosPage extends Component {
                   src={this.state.cropResult}
                 />
                 <Button.Group>
-                    <Button onClick={this.uploadImage} style={{ width: '100px' }} positive icon='check' />
-                    <Button onClick={this.cancelCrop} style={{ width: '100px' }} icon='close' />
+                    <Button 
+                      loading={loading}
+                      onClick={this.uploadImage} 
+                      style={{ width: '100px' }} 
+                      positive icon='check' />
+                    <Button disabled={loading} onClick={this.cancelCrop} style={{ width: '100px' }} icon='close' />
                 </Button.Group>
               </div>
             )}
@@ -148,7 +152,7 @@ class PhotosPage extends Component {
 
         <Card.Group itemsPerRow={5}>
           <Card>
-            <Image src={profile.photoURL} />
+            <Image src={profile.photoURL || '/assets/user.png'} />
             <Button positive>Main Photo</Button>
           </Card>
           {photos && filteredPhotos.map(photo => (
@@ -183,7 +187,8 @@ const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
     profile: state.firebase.profile,
-    photos: state.firestore.ordered.photos
+    photos: state.firestore.ordered.photos,
+    loading: state.async.loading
   }
 }
 
