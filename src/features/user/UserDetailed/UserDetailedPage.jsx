@@ -28,9 +28,10 @@ const mapStateToProps = (state) => {
 
 class UserDetailedPage extends Component {
     render() {
-        const {profile, photos} = this.props;
-        let age = profile.dateOfBirth ? differenceInYears(Date.now(), profile.dateOfBirth.toDate()) : 'unknown age';
-        let date = profile.createdAt ? format(profile.createdAt.toDate(), 'D MMM YYYY') : null;
+        const {photos} = this.props;
+        const {dateOfBirth, createdAt, photoURL, displayName, occupation, city, interests} = this.props.profile;
+        let age = dateOfBirth ? differenceInYears(Date.now(), dateOfBirth.toDate()) : 'unknown age';
+        let date = createdAt ? format(createdAt.toDate(), 'D MMM YYYY') : null;
 
         return (
             <Grid>
@@ -38,13 +39,13 @@ class UserDetailedPage extends Component {
                     <Segment>
                         <Item.Group>
                             <Item>
-                                <Item.Image avatar size='small' src={profile.photoURL}/>
+                                <Item.Image avatar size='small' src={photoURL}/>
                                 <Item.Content verticalAlign='bottom'>
-                                    <Header as='h1'>{profile.displayName}</Header>
+                                    <Header as='h1'>{displayName}</Header>
                                     <br/>
-                                    <Header as='h3'>{profile.occupation}</Header>
+                                    <Header as='h3'>{occupation}</Header>
                                     <br/>
-                                    <Header as='h3'>{age}, Lives in {profile.city}</Header>
+                                    <Header as='h3'>{age}, Lives in {city}</Header>
                                 </Item.Content>
                             </Item>
                         </Item.Group>
@@ -55,18 +56,16 @@ class UserDetailedPage extends Component {
                     <Segment>
                         <Grid columns={2}>
                             <Grid.Column width={10}>
-                                <Header icon='smile' content={`About ${this.props.displayName}`}/>
-                                <p>I am a: <strong>{this.props.profile.occupation}</strong></p>
-                                <p>Originally from <strong>{this.props.profile.city}</strong></p>
+                                <Header icon='smile' content={`About ${displayName}`}/>
+                                <p>I am : <strong>{occupation}</strong></p>
+                                <p>Originally from <strong>{city}</strong></p>
                                 <p>Member Since: <strong>{date}</strong></p>
-                                <p>Description of user</p>
-
                             </Grid.Column>
                             <Grid.Column width={6}>
                                 <Header icon='heart outline' content='Interests'/>
                                 <List>
-                                    {profile.interests &&
-                                        profile.interests.map((interest, idx) => (
+                                    {interests &&
+                                        interests.map((interest, idx) => (
                                             <Item key={idx}>
                                                 <Icon name={'heart'}/>
                                                 <Item.Content>{interest}</Item.Content>
