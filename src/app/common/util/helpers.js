@@ -1,9 +1,11 @@
+import moment from 'moment';
+
 export const createNewEvent = (user, photoURL, event) => {
     event.date = moment(event.date).toDate();
     return {
         ...event,
         hostUid: user.uid,
-        hostedBt: user.displayName,
+        hostedBy: user.displayName,
         hostPhotoURL: photoURL || '/assets/user.png',
         created: Date.now(),
         attendees: {
